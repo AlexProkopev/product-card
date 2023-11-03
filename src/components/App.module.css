@@ -16,6 +16,11 @@
     color: rgb(255, 0, 72);
   }
 
-  .btnBacket{
+  .btnBacket, .btnAdmin{
     position: fixed;
   }
+
+  .btnAdmin{
+    opacity: 0;
+  }
+ 

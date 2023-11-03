@@ -78,6 +78,7 @@ export class App extends React.Component {
     backet: [],
     backetBtn: false,
     yourAdmin: false,
+    backBtn: false,
   };
 
   addProduct = ({ name, price, description, image }) => {
@@ -97,11 +98,7 @@ export class App extends React.Component {
     });
   };
 
-  deleteProduct = id => {
-    this.setState({
-      products: this.state.products.filter(product => product.id !== id),
-    });
-  };
+ 
 
   addProductInBacket = ({ name, price, description, image }) => {
     this.setState(
@@ -121,74 +118,85 @@ export class App extends React.Component {
     );
   };
 
-  deleteProductBacket = id => {
+  deleteProduct = (id,stateValue) => {
     this.setState({
-      backet: this.state.backet.filter(backetElem => backetElem.id !== id),
+      [stateValue]: this.state[stateValue].filter(product => product.id !== id),
     });
   };
 
-  backetOnFn = () => {
+  backetOnFn = (stateName) => {
     this.setState(
       {
-        backetBtn: true,
+        [stateName]: true,
       }
     );
   };
 
-  adminOnFn = () => {
-    this.setState(
-      {
-        yourAdmin: true,
-      }
-    );
-  };
+  
+
 
   render() {
+
+    const adminBtn = (
+    <button
+      type="button"
+      onClick={()=>{this.backetOnFn("yourAdmin")}}
+      className={css.btnAdmin}
+    >
+      Ты админ?
+    </button>)
+
+    const backetBtn = (
+    <button
+      type="button"
+      onClick={()=>{this.backetOnFn("backetBtn")}}
+      className={css.btnBacket}
+    >
+      Показать корзину
+    </button>)
+
     return (
       <>
-      <button
-            type="button"
-            onClick={this.adminOnFn}
-            className={css.btnBacket}
-          >
-            Ты админ?
-          </button>
-        {this.state.yourAdmin && <h1>Заполните форму</h1>}
-        {this.state.backet.length ? (
-          <button
-            type="button"
-            onClick={this.backetOnFn}
-            className={css.btnBacket}
-          >
-            Перейти в корзину
-          </button>
-          
-        ) : (
-          <h2 className={css.btnBacket}>Ваша корзина пуста</h2>
-        )}
-        {this.state.yourAdmin === true ? <ProductForm addProduct={this.addProduct} /> : null }
+  {adminBtn}  {/* Кнопка админа */}
 
-        {this.state.products.length ? (
-          <h2 className={css.titleProduct}>Продукты</h2>
-        ) : (
-          <h2 className={css.titleProductNan}>Нет продуктов</h2>
-        )}
-        <ul className={css.listCard}>
-          {this.state.backetBtn === true ? (
-            <Backet
-              backet={this.state.backet}
-              deleteProduct={this.deleteProductBacket}
-            />
-            
-          ) : (
-            <ProductCard
-              product={this.state.products}
-              deleteProduct={this.deleteProduct}
-              addProductInBacket={this.addProductInBacket}
-            />
-          )}
-        </ul>
-      </>
+  {this.state.yourAdmin && <h1>Заполните форму</h1>}
+
+  {/* Отображение корзины или сообщения о пустой корзине */}
+  {this.state.backet.length ? (
+    backetBtn
+  ) : (
+    <h2 className={css.btnBacket}>Ваша корзина пуста</h2>
+  )}
+
+  {/* Отображение формы для админа, если активирована */}
+  {this.state.yourAdmin && <ProductForm addProduct={this.addProduct} />}
+
+  {/* Отображение заголовка "Продукты" или сообщения о отсутствии продуктов */}
+  {this.state.products.length ? (
+    <h2 className={css.titleProduct}>Продукты</h2>
+  ) : (
+    <h2 className={css.titleProductNan}>Нет продуктов</h2>
+  )}
+
+  <ul className={css.listCard}>
+    {/* Вывод либо корзины, либо карточек продуктов */}
+    {this.state.backetBtn ? (
+      <Backet
+        backet={this.state.backet}
+        deleteProduct={this.deleteProduct}
+        backBtn={this.backetOnFn}
+      />
+    ) : (
+      <ProductCard
+        product={this.state.products}
+        deleteProduct={this.deleteProduct}
+        addProductInBacket={this.addProductInBacket}
+      />
+    )}
+    
+    
+  </ul>
+</>
     );
   }
 }

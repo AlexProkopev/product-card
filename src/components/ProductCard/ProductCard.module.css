@@ -35,8 +35,8 @@
   }
   
   .buttonDeleted {
-    background-color: rgb(191, 0, 255);
-    color: #fff;
+    background-color: rgb(255, 0, 132);
+    color:  rgb(68, 255, 0);
     border: none;
     padding: 5px 10px;
     cursor: pointer;
@@ -46,9 +46,9 @@
   }
 
   .buttonBy {
-    margin-left: 20px;
-    background-color: rgb(191, 0, 255);
-    color: #fff;
+    
+    background-color: rgb(68, 255, 0);
+    color:rgb(255, 0, 132);
     border: none;
     padding: 5px 10px;
     cursor: pointer;
@@ -64,4 +64,12 @@
   .buttonBy:hover{
     background-color: rgb(44, 204, 0);
   }
+
+  .productListBtn {
+    margin: 0;
+    padding: 0;
+    list-style:  none;
+    display: flex;
+    justify-content: space-between;
+   }
   
