@@ -1,7 +1,12 @@
+.container {
+  width: 1300px;
+  margin: 0 auto;
+}
+
 .listCard {
   display: flex;
   flex-wrap: wrap;
-  gap: 10px;
+  justify-content: space-between;
     list-style: none;
     padding: 0;
   }
