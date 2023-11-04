@@ -145,6 +145,10 @@ export class App extends React.Component {
         }
       );
     }
+
+    this.setState({
+      backBtn: false,
+    });
   }
 
   openModal = (stateNameProp, product) => {
@@ -155,7 +159,14 @@ export class App extends React.Component {
     });
   }
 
-
+  
+forBacketOff = (stateName) => {
+  this.setState(
+    {
+      [stateName]: false,
+    }
+  );
+}
   
 
 
@@ -176,20 +187,20 @@ export class App extends React.Component {
       onClick={()=>{this.backetOnFn("backetBtn")}}
       className={css.btnBacket}
     >
-      Показать корзину
+      Перейти в корзину
     </button>)
 
     return (
       <div className={css.container}>
   {adminBtn}  {/* Кнопка админа */}
 
-  {this.state.yourAdmin && <h1>Заполните форму</h1>}
+  {this.state.yourAdmin && <h1 className={css.title}>Заполните форму</h1>}
 
   {/* Отображение корзины или сообщения о пустой корзине */}
   {this.state.backet.length ? (
     backetBtn
   ) : (
-    <h2 className={css.btnBacket}>Ваша корзина пуста</h2>
+    <h2 className={css.titleEmptyBacket}>Ваша корзина пуста</h2>
   )}
 
   {/* Отображение формы для админа, если активирована */}
@@ -199,13 +210,14 @@ export class App extends React.Component {
   {this.state.products.length ? (
     <h2 className={css.titleProduct}>Продукты</h2>
   ) : (
-    <h2 className={css.titleProductNan}>Нет продуктов</h2>
+    <h2 className={css.titleEmptyProductNan}>Нет продуктов</h2>
   )}
 
   <ul className={css.listCard}>
     {/* Вывод либо корзины, либо карточек продуктов */}
     {this.state.backetBtn ? (
       <Backet
+      btnIsFalse={this.btnIsFalse}
         backet={this.state.backet}
         deleteProduct={this.deleteProduct}
         backBtn={this.backetOnFn}
@@ -218,7 +230,14 @@ export class App extends React.Component {
         backetOnFn={this.openModal}
       />
     )}
-    
+    {this.state.backBtn &&  (
+      <ProductCard
+        product={this.state.products}
+        deleteProduct={this.deleteProduct}
+        addProductInBacket={this.addProductInBacket}
+        backetOnFn={this.openModal}
+      />
+    )}
     
   </ul>
 
